@@ -16,4 +16,13 @@ public enum ColorEnum {
         this.colorCode = colorCode;
         this.displayName = displayName;
     }
+
+    public static ColorEnum fromColorCode(int colorCode) {
+        for (ColorEnum color : values()) {
+            if (color.colorCode == colorCode) {
+                return color;
+            }
+        }
+        throw new IllegalArgumentException("Colorcode not registered: " + colorCode);
+    }
 }
