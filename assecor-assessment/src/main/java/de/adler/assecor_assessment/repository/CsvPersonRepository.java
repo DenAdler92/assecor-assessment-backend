@@ -3,32 +3,36 @@ package de.adler.assecor_assessment.repository;
 import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CSVPersonRepository {
+public class CsvPersonRepository {
 
-    private final String CSV_PATH = "src/main/resources/sample-input.csv";
+    @Setter
+    private String csvPath = "src/main/resources/sample-input.csv";
+    @Getter
     private final List<Person> personList = new ArrayList<>();
 
     @PostConstruct
     public void init() {
-
+        personList.addAll(readFromCsv());
     }
 
     public List<Person> readFromCsv() {
         List<Person> csvPersons = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(CSV_PATH), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvPath), StandardCharsets.UTF_8))) {
             Long id = 0L;
             String line;
             String incompleteLine = "";
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
-                if (isCsvLineValid(line)) {
+                if (!isCsvLineValid(line)) {
                     if (incompleteLine.isEmpty()) {
                         incompleteLine = incompleteLine.concat(line);
                     } else {
@@ -39,10 +43,13 @@ public class CSVPersonRepository {
                             incompleteLine = "";
                         }
                     }
+                } else {
+                    id++;
+                    csvPersons.add(parseLineToPerson(id, line));
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while reading CSV", e);
         }
         return csvPersons;
     }
