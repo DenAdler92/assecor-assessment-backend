@@ -4,8 +4,6 @@ import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.repository.CsvPersonRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class PersonService {
 

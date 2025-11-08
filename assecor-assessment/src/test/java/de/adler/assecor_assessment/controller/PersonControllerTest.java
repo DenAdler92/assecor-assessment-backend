@@ -27,7 +27,6 @@ public class PersonControllerTest {
     private PersonService personService;
 
     private Person person;
-    private List<Person> persons;
 
     @BeforeEach
     public void prepareSetup() {
