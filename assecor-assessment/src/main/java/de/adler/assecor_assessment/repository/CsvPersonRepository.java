@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvPersonRepository {
+public class CsvPersonRepository implements PersonRepository {
 
     @Setter
     private String csvPath = "src/main/resources/sample-input.csv";
@@ -73,5 +73,13 @@ public class CsvPersonRepository {
         ColorEnum color = ColorEnum.fromColorCode(Integer.parseInt(personAttributes[3].trim()));
 
         return new Person(id, lastName, name, zipCode, city, color);
+    }
+
+    @Override
+    public Person findPersonById(Long id) {
+        return personList.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }
