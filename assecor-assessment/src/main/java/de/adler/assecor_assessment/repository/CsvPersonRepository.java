@@ -84,4 +84,9 @@ public class CsvPersonRepository implements PersonRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public List<Person> findAllPersons() {
+        return personList;
+    }
 }
