@@ -30,4 +30,9 @@ public class PersonController {
         }
         return ResponseEntity.ok(person);
     }
+
+    @GetMapping("/color/{color}")
+    public ResponseEntity<List<Person>> getPersonsByColor(@PathVariable String color) {
+        return ResponseEntity.ok(personService.getPersonsByColor(color));
+    }
 }

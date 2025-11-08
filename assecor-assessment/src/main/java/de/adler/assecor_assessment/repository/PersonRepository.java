@@ -8,4 +8,5 @@ import java.util.List;
 public interface PersonRepository {
     Person findPersonById(Long id);
     List<Person> findAllPersons();
+    List<Person> findPersonsByColor(String color);
 }

@@ -22,4 +22,8 @@ public class PersonService {
     public List<Person> getAllPersons() {
         return csvPersonRepository.findAllPersons();
     }
+
+    public List<Person> getPersonsByColor(String color) {
+        return csvPersonRepository.findPersonsByColor(color);
+    }
 }

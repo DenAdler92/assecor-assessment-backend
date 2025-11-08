@@ -89,4 +89,11 @@ public class CsvPersonRepository implements PersonRepository {
     public List<Person> findAllPersons() {
         return personList;
     }
+
+    @Override
+    public List<Person> findPersonsByColor(String color) {
+        return personList.stream()
+                .filter(p-> p.getColor().getDisplayName().equals(color))
+                .toList();
+    }
 }
