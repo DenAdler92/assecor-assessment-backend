@@ -35,4 +35,10 @@ public class PersonController {
     public ResponseEntity<List<Person>> getPersonsByColor(@PathVariable String color) {
         return ResponseEntity.ok(personService.getPersonsByColor(color));
     }
+
+    @PostMapping
+    public ResponseEntity<String> addPerson(@RequestBody Person person) {
+        personService.addPerson(person);
+        return ResponseEntity.ok("Person added");
+    }
 }

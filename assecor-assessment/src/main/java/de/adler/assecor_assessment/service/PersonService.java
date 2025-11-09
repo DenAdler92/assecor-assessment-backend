@@ -26,4 +26,8 @@ public class PersonService {
     public List<Person> getPersonsByColor(String color) {
         return csvPersonRepository.findPersonsByColor(color);
     }
+
+    public void addPerson(Person person) {
+        csvPersonRepository.savePerson(person);
+    }
 }

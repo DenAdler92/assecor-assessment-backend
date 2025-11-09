@@ -11,6 +11,7 @@ public enum ColorEnum {
     TUERKIS(6, "türkis"),
     WEISS(7, "weiß");
 
+    @Getter
     private final int colorCode;
     @Getter
     private final String displayName;
