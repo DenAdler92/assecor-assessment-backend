@@ -11,7 +11,7 @@ public class Person {
 
     private Long id;
     private String name;
-    private String lastName;
+    private String lastname;
     private int zipcode;
     private String city;
     private ColorEnum color;

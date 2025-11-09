@@ -112,7 +112,7 @@ public class CsvPersonRepository implements PersonRepository {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath, true))) {
             writer.write(String.format(
                     "%n%s, %s, %d %s, %d",
-                    p.getLastName(),
+                    p.getLastname(),
                     p.getName(),
                     p.getZipcode(),
                     p.getCity(),
