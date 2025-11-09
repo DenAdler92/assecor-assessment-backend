@@ -1,7 +1,7 @@
 package de.adler.assecor_assessment.service;
 
 import de.adler.assecor_assessment.model.Person;
-import de.adler.assecor_assessment.repository.CsvPersonRepository;
+import de.adler.assecor_assessment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,25 +9,25 @@ import java.util.List;
 @Service
 public class PersonService {
 
-    private final CsvPersonRepository csvPersonRepository;
+    private final PersonRepository personRepository;
 
-    public PersonService(CsvPersonRepository csvPersonRepository) {
-        this.csvPersonRepository = csvPersonRepository;
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     public Person getPersonById(Long id) {
-        return csvPersonRepository.findPersonById(id);
+        return personRepository.findById(id);
     }
 
     public List<Person> getAllPersons() {
-        return csvPersonRepository.findAllPersons();
+        return personRepository.findAll();
     }
 
     public List<Person> getPersonsByColor(String color) {
-        return csvPersonRepository.findPersonsByColor(color);
+        return personRepository.findByColor(color);
     }
 
     public void addPerson(Person person) {
-        csvPersonRepository.savePerson(person);
+        personRepository.savePerson(person);
     }
 }

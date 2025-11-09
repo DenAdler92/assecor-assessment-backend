@@ -6,8 +6,8 @@ import java.util.List;
 
 
 public interface PersonRepository {
-    Person findPersonById(Long id);
-    List<Person> findAllPersons();
-    List<Person> findPersonsByColor(String color);
+    Person findById(Long id);
+    List<Person> findAll();
+    List<Person> findByColor(String color);
     void savePerson(Person person);
 }
