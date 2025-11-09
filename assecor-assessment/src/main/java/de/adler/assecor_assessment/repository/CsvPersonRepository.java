@@ -5,14 +5,16 @@ import de.adler.assecor_assessment.model.Person;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository
+@Primary
 public class CsvPersonRepository implements PersonRepository {
 
     @Setter
@@ -78,7 +80,7 @@ public class CsvPersonRepository implements PersonRepository {
     }
 
     @Override
-    public Person findPersonById(Long id) {
+    public Person findById(Long id) {
         return personList.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
@@ -86,12 +88,12 @@ public class CsvPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<Person> findAllPersons() {
+    public List<Person> findAll() {
         return personList;
     }
 
     @Override
-    public List<Person> findPersonsByColor(String color) {
+    public List<Person> findByColor(String color) {
         return personList.stream()
                 .filter(p-> p.getColor().getDisplayName().equals(color))
                 .toList();
