@@ -1,5 +1,7 @@
 package de.adler.assecor_assessment.model;
 
+import lombok.Getter;
+
 public enum ColorEnum {
     BLAU(1, "blau"),
     GRUEN(2, "grün"),
@@ -9,7 +11,9 @@ public enum ColorEnum {
     TUERKIS(6, "türkis"),
     WEISS(7, "weiß");
 
+    @Getter
     private final int colorCode;
+    @Getter
     private final String displayName;
 
     ColorEnum(int colorCode, String displayName) {

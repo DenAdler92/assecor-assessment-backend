@@ -84,4 +84,42 @@ public class CsvPersonRepository implements PersonRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public List<Person> findAllPersons() {
+        return personList;
+    }
+
+    @Override
+    public List<Person> findPersonsByColor(String color) {
+        return personList.stream()
+                .filter(p-> p.getColor().getDisplayName().equals(color))
+                .toList();
+    }
+
+    @Override
+    public void savePerson(Person person) {
+        Long newId = personList.stream()
+                .mapToLong(Person::getId)
+                .max()
+                .orElse(0L) + 1;
+        person.setId(newId);
+        personList.add(person);
+        writeToCsv(person);
+    }
+
+    private void writeToCsv(Person p) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath, true))) {
+            writer.write(String.format(
+                    "%n%s, %s, %d %s, %d",
+                    p.getLastname(),
+                    p.getName(),
+                    p.getZipcode(),
+                    p.getCity(),
+                    p.getColor().getColorCode()
+            ));
+        } catch (IOException e) {
+            throw new RuntimeException("Error writing in Csv-File", e);
+        }
+    }
 }
