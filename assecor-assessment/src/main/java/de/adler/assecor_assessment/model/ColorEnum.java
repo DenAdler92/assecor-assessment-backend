@@ -36,6 +36,6 @@ public enum ColorEnum {
                 return color;
             }
         }
-        throw new IllegalArgumentException("Color with displayName: {}" + colorDisplayName);
+        throw new IllegalArgumentException("Color with displayName: " + colorDisplayName);
     }
 }
