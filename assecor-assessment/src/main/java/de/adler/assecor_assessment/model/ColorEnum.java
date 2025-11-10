@@ -29,4 +29,13 @@ public enum ColorEnum {
         }
         throw new IllegalArgumentException("Colorcode not registered: " + colorCode);
     }
+
+    public static ColorEnum fromDisplayName(String colorDisplayName) {
+        for (ColorEnum color : values()) {
+            if (color.displayName.equals(colorDisplayName)) {
+                return color;
+            }
+        }
+        throw new IllegalArgumentException("Color with displayName: {}" + colorDisplayName);
+    }
 }

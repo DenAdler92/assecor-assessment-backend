@@ -1,7 +1,6 @@
 package de.adler.assecor_assessment.controller;
 
-import de.adler.assecor_assessment.model.ColorEnum;
-import de.adler.assecor_assessment.model.Person;
+import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,11 +23,11 @@ public class PersonControllerTest {
     @MockitoBean
     private PersonService personService;
 
-    private Person person;
+    private PersonResponseDTO person;
 
     @BeforeEach
     public void prepareSetup() {
-        person = new Person(1L, "Hans", "Meier",123456, "Berlin", ColorEnum.BLAU);
+        person = new PersonResponseDTO(1L, "Hans", "Meier", 123456, "Berlin", "blau");
     }
 
     @Test
@@ -40,7 +37,7 @@ public class PersonControllerTest {
         mockMvc.perform(get("/persons/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Hans"))
-                .andExpect(jsonPath("$.color").value("BLAU"));
+                .andExpect(jsonPath("$.color").value("blau"));
     }
 
 
