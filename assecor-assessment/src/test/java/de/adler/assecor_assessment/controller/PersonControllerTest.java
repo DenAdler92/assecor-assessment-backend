@@ -1,8 +1,6 @@
 package de.adler.assecor_assessment.controller;
 
 import de.adler.assecor_assessment.dto.PersonResponseDTO;
-import de.adler.assecor_assessment.model.ColorEnum;
-import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
