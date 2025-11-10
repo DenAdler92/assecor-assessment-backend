@@ -5,6 +5,8 @@ import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
 
+import java.util.List;
+
 public class PersonMapper {
 
     public static PersonResponseDTO toPersonResponseDTO(Person person) {
@@ -27,5 +29,11 @@ public class PersonMapper {
         person.setCity(personRequestDTO.getCity());
         person.setColor(ColorEnum.fromColorCode(personRequestDTO.getColor()));
         return person;
+    }
+
+    public static List<PersonResponseDTO> toPersonResponseDTOList(List<Person> personList) {
+        return personList.stream()
+                .map(PersonMapper::toPersonResponseDTO)
+                .toList();
     }
 }

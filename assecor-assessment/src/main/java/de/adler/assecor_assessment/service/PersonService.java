@@ -24,14 +24,11 @@ public class PersonService {
     }
 
     public List<PersonResponseDTO> getAllPersons() {
-        return personRepository.findAll().stream().map(PersonMapper::toPersonResponseDTO).toList();
+        return PersonMapper.toPersonResponseDTOList(personRepository.findAll());
     }
 
     public List<PersonResponseDTO> getPersonsByColor(String color) {
-        return personRepository.findByColor(ColorEnum.fromDisplayName(color))
-                .stream()
-                .map(PersonMapper::toPersonResponseDTO)
-                .toList();
+        return PersonMapper.toPersonResponseDTOList(personRepository.findByColor(ColorEnum.fromDisplayName(color)));
     }
 
     public void addPerson(PersonRequestDTO person) {
