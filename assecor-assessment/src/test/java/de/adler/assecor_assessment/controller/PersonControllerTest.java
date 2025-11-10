@@ -1,5 +1,6 @@
 package de.adler.assecor_assessment.controller;
 
+import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.service.PersonService;
@@ -26,11 +27,11 @@ public class PersonControllerTest {
     @MockitoBean
     private PersonService personService;
 
-    private Person person;
+    private PersonResponseDTO person;
 
     @BeforeEach
     public void prepareSetup() {
-        person = new Person(1L, "Hans", "Meier",123456, "Berlin", ColorEnum.BLAU);
+        person = new PersonResponseDTO(1L, "Hans", "Meier", 123456, "Berlin", "blau");
     }
 
     @Test
@@ -40,7 +41,7 @@ public class PersonControllerTest {
         mockMvc.perform(get("/persons/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Hans"))
-                .andExpect(jsonPath("$.color").value("BLAU"));
+                .andExpect(jsonPath("$.color").value("blau"));
     }
 
 

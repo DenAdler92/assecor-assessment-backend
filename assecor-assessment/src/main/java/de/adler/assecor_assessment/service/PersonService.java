@@ -1,5 +1,7 @@
 package de.adler.assecor_assessment.service;
 
+import de.adler.assecor_assessment.dto.PersonResponseDTO;
+import de.adler.assecor_assessment.mapper.PersonMapper;
 import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,16 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public Person getPersonById(Long id) {
-        return personRepository.findById(id);
+    public PersonResponseDTO getPersonById(Long id) {
+        return PersonMapper.toPersonResponseDTO(personRepository.findById(id));
     }
 
-    public List<Person> getAllPersons() {
-        return personRepository.findAll();
+    public List<PersonResponseDTO> getAllPersons() {
+        return personRepository.findAll().stream().map(PersonMapper::toPersonResponseDTO).toList();
     }
 
-    public List<Person> getPersonsByColor(String color) {
-        return personRepository.findByColor(color);
+    public List<PersonResponseDTO> getPersonsByColor(String color) {
+        return personRepository.findByColor(color).stream().map(PersonMapper::toPersonResponseDTO).toList();
     }
 
     public void addPerson(Person person) {

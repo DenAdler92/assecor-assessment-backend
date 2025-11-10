@@ -1,5 +1,6 @@
 package de.adler.assecor_assessment.controller;
 
+import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.service.PersonService;
 import org.springframework.http.ResponseEntity;
@@ -18,21 +19,21 @@ public class PersonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Person>> getAllPersons() {
+    public ResponseEntity<List<PersonResponseDTO>> getAllPersons() {
         return ResponseEntity.ok(personService.getAllPersons());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
-        Person person = personService.getPersonById(id);
-        if (person == null) {
+    public ResponseEntity<PersonResponseDTO> getPersonById(@PathVariable Long id) {
+        PersonResponseDTO personResponseDTO = personService.getPersonById(id);
+        if (personResponseDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(personResponseDTO);
     }
 
     @GetMapping("/color/{color}")
-    public ResponseEntity<List<Person>> getPersonsByColor(@PathVariable String color) {
+    public ResponseEntity<List<PersonResponseDTO>> getPersonsByColor(@PathVariable String color) {
         return ResponseEntity.ok(personService.getPersonsByColor(color));
     }
 
