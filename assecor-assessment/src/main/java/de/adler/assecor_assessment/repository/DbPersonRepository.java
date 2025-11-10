@@ -34,6 +34,6 @@ public class DbPersonRepository implements PersonRepository {
 
     @Override
     public void savePerson(Person person) {
-
+        jpaPersonRepository.save(person);
     }
 }
