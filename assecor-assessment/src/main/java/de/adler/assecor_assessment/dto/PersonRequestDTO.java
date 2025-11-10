@@ -11,5 +11,5 @@ public class PersonRequestDTO {
     private String lastname;
     private int zipcode;
     private String city;
-    private int colorCode;
+    private int color;
 }

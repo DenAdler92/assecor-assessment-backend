@@ -1,7 +1,7 @@
 package de.adler.assecor_assessment.controller;
 
+import de.adler.assecor_assessment.dto.PersonRequestDTO;
 import de.adler.assecor_assessment.dto.PersonResponseDTO;
-import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addPerson(@RequestBody Person person) {
+    public ResponseEntity<String> addPerson(@RequestBody PersonRequestDTO person) {
         personService.addPerson(person);
         return ResponseEntity.ok("Person added");
     }

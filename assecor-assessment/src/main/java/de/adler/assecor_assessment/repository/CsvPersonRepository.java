@@ -93,9 +93,9 @@ public class CsvPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<Person> findByColor(String color) {
+    public List<Person> findByColor(ColorEnum color) {
         return personList.stream()
-                .filter(p-> p.getColor().getDisplayName().equals(color))
+                .filter(p-> p.getColor().getDisplayName().equals(color.getDisplayName()))
                 .toList();
     }
 
