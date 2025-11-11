@@ -51,8 +51,8 @@ public class CsvFilePersonManager {
 
     private static Person parseLineToPerson(Long id, String csvLine) {
         String[] personAttributes = csvLine.split(",");
-        String lastName = personAttributes[0].trim();
-        String name = personAttributes[1].trim();
+        String name = personAttributes[0].trim();
+        String lastName = personAttributes[1].trim();
         String[] zipCodeAndCity = personAttributes[2].trim().split(" ", 2);
         int zipCode = Integer.parseInt(zipCodeAndCity[0]);
         String city = zipCodeAndCity[1];
