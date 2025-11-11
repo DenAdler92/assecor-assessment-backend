@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class CsvFilePersonManagerTest {
+public class CsvPersonRepositoryTest {
 
     private String testCsvPath = "test-person.csv";
 
