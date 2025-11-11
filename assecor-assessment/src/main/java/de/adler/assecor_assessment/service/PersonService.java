@@ -31,11 +31,7 @@ public class PersonService {
         return PersonMapper.toPersonResponseDTOList(personRepository.findByColor(ColorEnum.fromDisplayName(color)));
     }
 
-    public void addPerson(PersonRequestDTO person) {
-        Long newId = personRepository.findAll().stream()
-                .mapToLong(Person::getId)
-                .max()
-                .orElse(0L) + 1;
-        personRepository.savePerson(PersonMapper.toPerson(person, newId));
+    public void addPerson(PersonRequestDTO personRequestDTO) {
+        personRepository.savePerson(PersonMapper.toPerson(personRequestDTO));
     }
 }

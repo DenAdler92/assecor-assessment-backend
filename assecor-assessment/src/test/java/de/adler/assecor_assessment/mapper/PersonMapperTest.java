@@ -40,9 +40,8 @@ public class PersonMapperTest {
                 "Jena",
                 2);
 
-        Person testPerson = PersonMapper.toPerson(personRequestDTO, 1L);
+        Person testPerson = PersonMapper.toPerson(personRequestDTO);
 
-        Assertions.assertEquals(1L, testPerson.getId());
         Assertions.assertEquals("Waltraud", testPerson.getName());
         Assertions.assertEquals("Rohwald", testPerson.getLastname());
         Assertions.assertEquals(123456, testPerson.getZipcode());

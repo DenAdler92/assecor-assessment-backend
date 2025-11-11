@@ -20,9 +20,8 @@ public class PersonMapper {
         return personResponseDTO;
     }
 
-    public static Person toPerson(PersonRequestDTO personRequestDTO, Long id) {
+    public static Person toPerson(PersonRequestDTO personRequestDTO) {
         Person person = new Person();
-        person.setId(id);
         person.setName(personRequestDTO.getName());
         person.setLastname(personRequestDTO.getLastname());
         person.setZipcode(personRequestDTO.getZipcode());
