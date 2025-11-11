@@ -4,7 +4,6 @@ import de.adler.assecor_assessment.dto.PersonRequestDTO;
 import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.mapper.PersonMapper;
 import de.adler.assecor_assessment.model.ColorEnum;
-import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
