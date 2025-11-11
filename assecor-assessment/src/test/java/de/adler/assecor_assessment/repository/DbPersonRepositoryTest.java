@@ -100,7 +100,7 @@ public class DbPersonRepositoryTest {
     }
 
     @Test
-    void save() {
+    void savePersonTest() {
         Person testPerson = new Person(1L, "Maria", "Müller", 123456, "Angermünde", ColorEnum.ROT);
 
         dbPersonRepository.savePerson(testPerson);
