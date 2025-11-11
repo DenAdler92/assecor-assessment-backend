@@ -2,7 +2,6 @@ package de.adler.assecor_assessment.repository;
 
 import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
-import de.adler.assecor_assessment.util.CsvFilePersonManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,13 +33,13 @@ public class CsvPersonRepositoryTest {
     }
 
     @Test
-    void initTest() throws IOException {
+    void initTest() {
         csvPersonRepository.init();
         assertEquals(3, csvPersonRepository.getPersonList().size());
     }
 
     @Test
-    void findById() throws IOException {
+    void findById() {
         csvPersonRepository.init();
 
         Person resultPerson = csvPersonRepository.findById(2L);
@@ -53,7 +52,7 @@ public class CsvPersonRepositoryTest {
     }
 
     @Test
-    void findAll() throws IOException {
+    void findAll() {
         csvPersonRepository.init();
 
         List<Person> resultPersons = csvPersonRepository.findAll();
@@ -65,7 +64,7 @@ public class CsvPersonRepositoryTest {
     }
 
     @Test
-    void findByColor() throws IOException {
+    void findByColor() {
         csvPersonRepository.init();
 
         List<Person> resultPersons = csvPersonRepository.findByColor(ColorEnum.BLAU);
