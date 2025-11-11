@@ -1,8 +1,10 @@
 package de.adler.assecor_assessment.repository;
 
+import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
-import de.adler.assecor_assessment.util.CsvFilePersonManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,46 +19,81 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class CsvPersonRepositoryTest {
 
-    private String testCsvPath = "test-person.csv";
+    private CsvPersonRepository csvPersonRepository;
+    private String testCsvPath;
 
-    @Test
-    void readFromCsvTest() throws IOException {
-        String csvContent = "Müller, Hans, 67742 Lauterecken, 1\nPetersen, Peter, 18439 Stralsund, 2\n";
+    @BeforeEach
+    void prepareTestEnvironment() throws IOException {
+        this.csvPersonRepository = new CsvPersonRepository();
+        testCsvPath = "test-person.csv";
+        String csvContent = "Andersson, Anders, 32132 Schweden - ☀, 2\nBart, Bertram, \n12313 Wasweißich, 1 \nGerber, Gerda, 76535 Woanders, 1 ";
         Files.writeString(new File(testCsvPath).toPath(), csvContent, StandardCharsets.UTF_8);
-
-        CsvPersonRepository csvPersonRepository = new CsvPersonRepository();
-
         csvPersonRepository.setCsvPath(testCsvPath);
 
-        List<Person> personList = CsvFilePersonManager.readFromCsv(testCsvPath);
-        assertEquals(2, personList.size());
     }
 
     @Test
-    void readFromInconsistentCsvTest() throws IOException {
-        String csvContent = "Andersson, Anders, 32132 Schweden - ☀, 2\nBart, Bertram, \n12313 Wasweißich, 1 \nGerber, Gerda, 76535 Woanders, 3 ";
-        Files.writeString(new File(testCsvPath).toPath(), csvContent, StandardCharsets.UTF_8);
-
-        CsvPersonRepository csvPersonRepository = new CsvPersonRepository();
-
-        csvPersonRepository.setCsvPath(testCsvPath);
-
-        List<Person> personList = CsvFilePersonManager.readFromCsv(testCsvPath);
-        assertEquals(3, personList.size());
-    }
-
-    @Test
-    void initTest() throws IOException {
-        String csvContent = "Andersson, Anders, 32132 Schweden - ☀, 2\nBart, Bertram, \n12313 Wasweißich, 1 \nGerber, Gerda, 76535 Woanders, 3 ";
-        Files.writeString(new File(testCsvPath).toPath(), csvContent, StandardCharsets.UTF_8);
-
-        CsvPersonRepository csvPersonRepository = new CsvPersonRepository();
-
-        csvPersonRepository.setCsvPath(testCsvPath);
-
+    void initTest() {
         csvPersonRepository.init();
         assertEquals(3, csvPersonRepository.getPersonList().size());
     }
+
+    @Test
+    void findById() {
+        csvPersonRepository.init();
+
+        Person resultPerson = csvPersonRepository.findById(2L);
+
+        Assertions.assertEquals("Bart", resultPerson.getLastname());
+        Assertions.assertEquals("Bertram", resultPerson.getName());
+        Assertions.assertEquals(12313, resultPerson.getZipcode());
+        Assertions.assertEquals("Wasweißich", resultPerson.getCity());
+        Assertions.assertEquals(ColorEnum.BLAU, resultPerson.getColor());
+    }
+
+    @Test
+    void findAll() {
+        csvPersonRepository.init();
+
+        List<Person> resultPersons = csvPersonRepository.findAll();
+
+        Assertions.assertEquals(3, resultPersons.size());
+        Assertions.assertEquals("Andersson", resultPersons.get(0).getLastname());
+        Assertions.assertEquals("Bart", resultPersons.get(1).getLastname());
+        Assertions.assertEquals("Gerber", resultPersons.get(2).getLastname());
+    }
+
+    @Test
+    void findByColor() {
+        csvPersonRepository.init();
+
+        List<Person> resultPersons = csvPersonRepository.findByColor(ColorEnum.BLAU);
+
+        Assertions.assertEquals(2, resultPersons.size());
+        Assertions.assertEquals("Bart", resultPersons.get(0).getLastname());
+        Assertions.assertEquals("Gerber", resultPersons.get(1).getLastname());
+    }
+
+    @Test
+    void savePersonTest() {
+        csvPersonRepository.init();
+        Person testPerson = new Person();
+        testPerson.setName("Hans");
+        testPerson.setLastname("Müller");
+        testPerson.setZipcode(123456);
+        testPerson.setCity("Werneuchen");
+        testPerson.setColor(ColorEnum.BLAU);
+
+        csvPersonRepository.savePerson(testPerson);
+        Person resultPerson = csvPersonRepository.findById(4L);
+
+        Assertions.assertEquals("Müller", resultPerson.getLastname());
+        Assertions.assertEquals("Hans", resultPerson.getName());
+        Assertions.assertEquals(123456, resultPerson.getZipcode());
+        Assertions.assertEquals("Werneuchen", resultPerson.getCity());
+        Assertions.assertEquals(ColorEnum.BLAU, resultPerson.getColor());
+    }
+
 
     @AfterEach
     void deleteTestFiles() throws IOException {

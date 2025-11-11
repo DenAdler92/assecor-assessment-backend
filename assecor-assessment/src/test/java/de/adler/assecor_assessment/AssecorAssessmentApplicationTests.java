@@ -10,4 +10,9 @@ class AssecorAssessmentApplicationTests {
 	void contextLoads() {
 	}
 
+    @Test
+    void applicationStart() {
+        AssecorAssessmentApplication.main(new String[] {});
+    }
+
 }

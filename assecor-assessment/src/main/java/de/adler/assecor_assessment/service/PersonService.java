@@ -4,7 +4,6 @@ import de.adler.assecor_assessment.dto.PersonRequestDTO;
 import de.adler.assecor_assessment.dto.PersonResponseDTO;
 import de.adler.assecor_assessment.mapper.PersonMapper;
 import de.adler.assecor_assessment.model.ColorEnum;
-import de.adler.assecor_assessment.model.Person;
 import de.adler.assecor_assessment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +30,7 @@ public class PersonService {
         return PersonMapper.toPersonResponseDTOList(personRepository.findByColor(ColorEnum.fromDisplayName(color)));
     }
 
-    public void addPerson(PersonRequestDTO person) {
-        Long newId = personRepository.findAll().stream()
-                .mapToLong(Person::getId)
-                .max()
-                .orElse(0L) + 1;
-        personRepository.savePerson(PersonMapper.toPerson(person, newId));
+    public void addPerson(PersonRequestDTO personRequestDTO) {
+        personRepository.savePerson(PersonMapper.toPerson(personRequestDTO));
     }
 }
