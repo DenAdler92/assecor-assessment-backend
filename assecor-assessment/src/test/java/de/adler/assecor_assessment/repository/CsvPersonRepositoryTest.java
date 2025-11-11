@@ -74,6 +74,27 @@ public class CsvPersonRepositoryTest {
         Assertions.assertEquals("Gerber", resultPersons.get(1).getLastname());
     }
 
+    @Test
+    void savePersonTest() {
+        csvPersonRepository.init();
+        Person testPerson = new Person();
+        testPerson.setName("Hans");
+        testPerson.setLastname("Müller");
+        testPerson.setZipcode(123456);
+        testPerson.setCity("Werneuchen");
+        testPerson.setColor(ColorEnum.BLAU);
+
+        csvPersonRepository.savePerson(testPerson);
+        Person resultPerson = csvPersonRepository.findById(4L);
+
+        Assertions.assertEquals("Müller", resultPerson.getLastname());
+        Assertions.assertEquals("Hans", resultPerson.getName());
+        Assertions.assertEquals(123456, resultPerson.getZipcode());
+        Assertions.assertEquals("Werneuchen", resultPerson.getCity());
+        Assertions.assertEquals(ColorEnum.BLAU, resultPerson.getColor());
+    }
+
+
     @AfterEach
     void deleteTestFiles() throws IOException {
         Files.deleteIfExists(new File(testCsvPath).toPath());
