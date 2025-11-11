@@ -1,6 +1,7 @@
 package de.adler.assecor_assessment.repository;
 
 import de.adler.assecor_assessment.model.Person;
+import de.adler.assecor_assessment.util.CsvFilePersonManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,7 @@ public class CsvPersonRepositoryTest {
 
         csvPersonRepository.setCsvPath(testCsvPath);
 
-        List<Person> personList = csvPersonRepository.readFromCsv();
+        List<Person> personList = CsvFilePersonManager.readFromCsv(testCsvPath);
         assertEquals(2, personList.size());
     }
 
@@ -40,7 +41,7 @@ public class CsvPersonRepositoryTest {
 
         csvPersonRepository.setCsvPath(testCsvPath);
 
-        List<Person> personList = csvPersonRepository.readFromCsv();
+        List<Person> personList = CsvFilePersonManager.readFromCsv(testCsvPath);
         assertEquals(3, personList.size());
     }
 

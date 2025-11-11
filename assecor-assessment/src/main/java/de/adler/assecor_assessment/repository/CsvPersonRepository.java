@@ -2,17 +2,19 @@ package de.adler.assecor_assessment.repository;
 
 import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
+import de.adler.assecor_assessment.util.CsvFilePersonManager;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Profile("csv")
+@Repository
 public class CsvPersonRepository implements PersonRepository {
 
     @Setter
@@ -22,63 +24,11 @@ public class CsvPersonRepository implements PersonRepository {
 
     @PostConstruct
     public void init() {
-        personList.addAll(readFromCsv());
-    }
-
-    public List<Person> readFromCsv() {
-        List<Person> csvPersons = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(csvPath), StandardCharsets.UTF_8))) {
-            Long id = 0L;
-            String line;
-            String incompleteLine = "";
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (!isCsvLineValid(line)) {
-                    if (incompleteLine.isEmpty()) {
-                        incompleteLine = incompleteLine.concat(line);
-                    } else {
-                        incompleteLine = incompleteLine.concat(line);
-                        if (isCsvLineValid(incompleteLine)) {
-                            id++;
-                            csvPersons.add(parseLineToPerson(id, incompleteLine));
-                            incompleteLine = "";
-                        }
-                    }
-                } else {
-                    id++;
-                    csvPersons.add(parseLineToPerson(id, line));
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error while reading CSV", e);
-        }
-        return csvPersons;
-    }
-
-    private boolean isCsvLineValid(String line) {
-        if (line.chars().filter(c -> c == ',').count() < 3) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private Person parseLineToPerson(Long id, String csvLine) {
-        String[] personAttributes = csvLine.split(",");
-        String lastName = personAttributes[0].trim();
-        String name = personAttributes[1].trim();
-        String[] zipCodeAndCity = personAttributes[2].trim().split(" ", 2);
-        int zipCode = Integer.parseInt(zipCodeAndCity[0]);
-        String city = zipCodeAndCity[1];
-
-        ColorEnum color = ColorEnum.fromColorCode(Integer.parseInt(personAttributes[3].trim()));
-
-        return new Person(id, lastName, name, zipCode, city, color);
+        personList.addAll(CsvFilePersonManager.readFromCsv(csvPath));
     }
 
     @Override
-    public Person findPersonById(Long id) {
+    public Person findById(Long id) {
         return personList.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
@@ -86,14 +36,14 @@ public class CsvPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<Person> findAllPersons() {
+    public List<Person> findAll() {
         return personList;
     }
 
     @Override
-    public List<Person> findPersonsByColor(String color) {
+    public List<Person> findByColor(ColorEnum color) {
         return personList.stream()
-                .filter(p-> p.getColor().getDisplayName().equals(color))
+                .filter(p-> p.getColor().getDisplayName().equals(color.getDisplayName()))
                 .toList();
     }
 
@@ -105,21 +55,6 @@ public class CsvPersonRepository implements PersonRepository {
                 .orElse(0L) + 1;
         person.setId(newId);
         personList.add(person);
-        writeToCsv(person);
-    }
-
-    private void writeToCsv(Person p) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath, true))) {
-            writer.write(String.format(
-                    "%n%s, %s, %d %s, %d",
-                    p.getLastname(),
-                    p.getName(),
-                    p.getZipcode(),
-                    p.getCity(),
-                    p.getColor().getColorCode()
-            ));
-        } catch (IOException e) {
-            throw new RuntimeException("Error writing in Csv-File", e);
-        }
+        CsvFilePersonManager.writeToCsv(person, csvPath);
     }
 }

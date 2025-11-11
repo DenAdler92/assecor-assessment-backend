@@ -1,7 +1,11 @@
 package de.adler.assecor_assessment.service;
 
+import de.adler.assecor_assessment.dto.PersonRequestDTO;
+import de.adler.assecor_assessment.dto.PersonResponseDTO;
+import de.adler.assecor_assessment.mapper.PersonMapper;
+import de.adler.assecor_assessment.model.ColorEnum;
 import de.adler.assecor_assessment.model.Person;
-import de.adler.assecor_assessment.repository.CsvPersonRepository;
+import de.adler.assecor_assessment.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,25 +13,29 @@ import java.util.List;
 @Service
 public class PersonService {
 
-    private final CsvPersonRepository csvPersonRepository;
+    private final PersonRepository personRepository;
 
-    public PersonService(CsvPersonRepository csvPersonRepository) {
-        this.csvPersonRepository = csvPersonRepository;
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
-    public Person getPersonById(Long id) {
-        return csvPersonRepository.findPersonById(id);
+    public PersonResponseDTO getPersonById(Long id) {
+        return PersonMapper.toPersonResponseDTO(personRepository.findById(id));
     }
 
-    public List<Person> getAllPersons() {
-        return csvPersonRepository.findAllPersons();
+    public List<PersonResponseDTO> getAllPersons() {
+        return PersonMapper.toPersonResponseDTOList(personRepository.findAll());
     }
 
-    public List<Person> getPersonsByColor(String color) {
-        return csvPersonRepository.findPersonsByColor(color);
+    public List<PersonResponseDTO> getPersonsByColor(String color) {
+        return PersonMapper.toPersonResponseDTOList(personRepository.findByColor(ColorEnum.fromDisplayName(color)));
     }
 
-    public void addPerson(Person person) {
-        csvPersonRepository.savePerson(person);
+    public void addPerson(PersonRequestDTO person) {
+        Long newId = personRepository.findAll().stream()
+                .mapToLong(Person::getId)
+                .max()
+                .orElse(0L) + 1;
+        personRepository.savePerson(PersonMapper.toPerson(person, newId));
     }
 }
