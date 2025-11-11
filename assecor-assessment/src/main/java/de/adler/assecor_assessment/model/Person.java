@@ -21,12 +21,4 @@ public class Person {
     private String city;
     @Convert(converter = ColorEnumConverter.class)
     private ColorEnum color;
-
-    public Person(String name, String lastname, int zipcode, String city, ColorEnum color) {
-        this.name = name;
-        this.lastname = lastname;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.color = color;
-    }
 }
